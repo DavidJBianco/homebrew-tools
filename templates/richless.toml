@@ -1,0 +1,31 @@
+package = "richless"
+python = "python@3.13"
+license = "MIT"
+github = "https://github.com/DavidJBianco/richless"
+
+install_extra = '''
+    # Install the shell integration script
+    (share/"richless").install buildpath/"richless-init.sh"
+'''
+
+caveats = '''
+      To enable the shell integration (recommended), add this to your
+      ~/.bashrc or ~/.zshrc:
+
+        source #{share}/richless/richless-init.sh
+
+      Or for basic LESSOPEN integration only:
+
+        export LESSOPEN="|#{bin}/richless %s"
+        export LESS="-R"
+'''
+
+test = '''
+    (testpath/"test.md").write("# Hello\n\nThis is **bold** text.\n")
+    output = shell_output("#{bin}/richless #{testpath}/test.md")
+    assert_match "Hello", output
+
+    (testpath/"test.py").write("print('hello')\n")
+    output = shell_output("#{bin}/richless #{testpath}/test.py")
+    assert_match "hello", output
+'''
