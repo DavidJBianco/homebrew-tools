@@ -3,8 +3,8 @@ class Richless < Formula
 
   desc "LESSOPEN filter for Markdown rendering and syntax highlighting with less"
   homepage "https://github.com/DavidJBianco/richless"
-  url "https://files.pythonhosted.org/packages/5f/06/b58d7da1c07f33f3fec1260ab7c00b88385c1358f8b32aa6e5c73f0b371d/richless-0.2.1.tar.gz"
-  sha256 "d63161c6e2070fb9f072363393d9621eae737099436072926a6aa56a9203bc33"
+  url "https://files.pythonhosted.org/packages/a8/0f/a48269e327619d9334316322a170d0b9b2fafc81b1e8c91225805d686509/richless-0.2.3.tar.gz"
+  sha256 "9d3640131b213331bcc21838ad0367dd2ecd243b7f1ab51a1c1d4a315310602b"
   license "MIT"
   head "https://github.com/DavidJBianco/richless.git", branch: "main"
 
