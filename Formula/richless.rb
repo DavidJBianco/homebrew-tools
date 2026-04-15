@@ -3,8 +3,8 @@ class Richless < Formula
 
   desc "LESSOPEN filter for Markdown rendering and syntax highlighting with less"
   homepage "https://github.com/DavidJBianco/richless"
-  url "https://files.pythonhosted.org/packages/a8/0f/a48269e327619d9334316322a170d0b9b2fafc81b1e8c91225805d686509/richless-0.2.3.tar.gz"
-  sha256 "9d3640131b213331bcc21838ad0367dd2ecd243b7f1ab51a1c1d4a315310602b"
+  url "https://files.pythonhosted.org/packages/4d/dc/b089233193b2c7cedb3e566c84a46d28f2b6c077080a14303b67d64f8858/richless-0.3.0.tar.gz"
+  sha256 "c044681f407c005bdb12b5ee19a77d476bafbb3d78e29ee1d20dbf534ab50298"
   license "MIT"
   head "https://github.com/DavidJBianco/richless.git", branch: "main"
 
@@ -21,13 +21,13 @@ class Richless < Formula
   end
 
   resource "Pygments" do
-    url "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz"
-    sha256 "636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887"
+    url "https://files.pythonhosted.org/packages/c3/b2/bc9c9196916376152d655522fdcebac55e66de6603a76a02bca1b6414f6c/pygments-2.20.0.tar.gz"
+    sha256 "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
   end
 
   resource "rich" do
-    url "https://files.pythonhosted.org/packages/b3/c6/f3b320c27991c46f43ee9d856302c70dc2d0fb2dba4842ff739d5f46b393/rich-14.3.3.tar.gz"
-    sha256 "b8daa0b9e4eef54dd8cf7c86c03713f53241884e814f4e2f5fb342fe520f639b"
+    url "https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz"
+    sha256 "edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36"
   end
 
   def install
