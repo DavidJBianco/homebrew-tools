@@ -3,16 +3,16 @@ class Richless < Formula
 
   desc "LESSOPEN filter for Markdown rendering and syntax highlighting with less"
   homepage "https://github.com/DavidJBianco/richless"
-  url "https://files.pythonhosted.org/packages/4d/dc/b089233193b2c7cedb3e566c84a46d28f2b6c077080a14303b67d64f8858/richless-0.3.0.tar.gz"
-  sha256 "c044681f407c005bdb12b5ee19a77d476bafbb3d78e29ee1d20dbf534ab50298"
+  url "https://files.pythonhosted.org/packages/c7/a3/eeb08d2707c5f893e054e4798ac9be114a910a4f576b8c2a8f239a67dd73/richless-0.3.1.tar.gz"
+  sha256 "f6691642bb7637fdf200d6a38bbd5b15d0624a5571344d6ae9ad14cd2e7141b1"
   license "MIT"
   head "https://github.com/DavidJBianco/richless.git", branch: "main"
 
   depends_on "python@3.13"
 
   resource "markdown-it-py" do
-    url "https://files.pythonhosted.org/packages/5b/f5/4ec618ed16cc4f8fb3b701563655a69816155e79e24a17b651541804721d/markdown_it_py-4.0.0.tar.gz"
-    sha256 "cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3"
+    url "https://files.pythonhosted.org/packages/06/ff/7841249c247aa650a76b9ee4bbaeae59370dc8bfd2f6c01f3630c35eb134/markdown_it_py-4.2.0.tar.gz"
+    sha256 "04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49"
   end
 
   resource "mdurl" do
@@ -60,5 +60,4 @@ class Richless < Formula
     output = shell_output("#{bin}/richless #{testpath}/test.py")
     assert_match "hello", output
   end
-
 end
