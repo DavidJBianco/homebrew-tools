@@ -14,8 +14,9 @@ import tomllib
 import urllib.request
 
 
-def get_pypi_metadata(package):
-    url = f"https://pypi.org/pypi/{package}/json"
+def get_pypi_metadata(package, version=None):
+    suffix = f"/{version}" if version else ""
+    url = f"https://pypi.org/pypi/{package}{suffix}/json"
     with urllib.request.urlopen(url) as resp:
         return json.loads(resp.read())
 
@@ -49,18 +50,19 @@ def get_runtime_deps(metadata):
     return deps
 
 
-def collect_all_deps(package):
+def collect_all_deps(package, versions=None):
     """Recursively collect all runtime dependencies via PyPI API.
 
     Returns a dict of {normalized_name: (canonical_name, sdist_url, sha256)}.
     """
+    versions = versions or {}
     result = {}
     to_visit = [package]
     seen = {normalize(package)}
 
     while to_visit:
         pkg = to_visit.pop()
-        meta = get_pypi_metadata(pkg)
+        meta = get_pypi_metadata(pkg, versions.get(normalize(pkg)))
         norm = normalize(meta["info"]["name"])
 
         if norm != normalize(package):
@@ -92,13 +94,14 @@ def main():
     caveats = config.get("caveats", "").strip("\n")
     test = config.get("test", "").strip("\n")
 
-    metadata = get_pypi_metadata(package)
+    versions = {normalize(name): version for name, version in config.get("versions", {}).items()}
+    metadata = get_pypi_metadata(package, versions.get(normalize(package)))
     info = metadata["info"]
     desc = info["summary"]
     homepage = info.get("home_page") or (github if github else "")
     sdist_url, sdist_sha = get_sdist(metadata)
 
-    deps = collect_all_deps(package)
+    deps = collect_all_deps(package, versions)
     resources = sorted(deps.values(), key=lambda r: r[0].lower())
 
     class_name = to_class_name(package)

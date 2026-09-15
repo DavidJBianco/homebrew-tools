@@ -3,16 +3,16 @@ class Richless < Formula
 
   desc "LESSOPEN filter for Markdown rendering and syntax highlighting with less"
   homepage "https://github.com/DavidJBianco/richless"
-  url "https://files.pythonhosted.org/packages/82/df/abbba537389de148df34134cbe2112fd9bdb0dcd3aac8e7f61ce944eab6e/richless-0.3.2.tar.gz"
-  sha256 "76c23c41fbaaa2dd19d91ec56398dc4ecae920f0641914f65253fac8e09eb6de"
+  url "https://files.pythonhosted.org/packages/a9/96/79fc2cf58dc624ff1fe9f87f2594461f2d125013834acb6945676e885dd0/richless-0.4.0.tar.gz"
+  sha256 "f3402d1080bc6fcddf4ac2a013cbae9876b3ec7025644bc1339d9747de6d05b5"
   license "MIT"
   head "https://github.com/DavidJBianco/richless.git", branch: "main"
 
   depends_on "python@3.13"
 
   resource "markdown-it-py" do
-    url "https://files.pythonhosted.org/packages/06/ff/7841249c247aa650a76b9ee4bbaeae59370dc8bfd2f6c01f3630c35eb134/markdown_it_py-4.2.0.tar.gz"
-    sha256 "04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49"
+    url "https://files.pythonhosted.org/packages/5b/f5/4ec618ed16cc4f8fb3b701563655a69816155e79e24a17b651541804721d/markdown_it_py-4.0.0.tar.gz"
+    sha256 "cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3"
   end
 
   resource "mdurl" do
@@ -21,13 +21,13 @@ class Richless < Formula
   end
 
   resource "Pygments" do
-    url "https://files.pythonhosted.org/packages/c3/b2/bc9c9196916376152d655522fdcebac55e66de6603a76a02bca1b6414f6c/pygments-2.20.0.tar.gz"
-    sha256 "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
+    url "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz"
+    sha256 "636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887"
   end
 
   resource "rich" do
-    url "https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz"
-    sha256 "edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36"
+    url "https://files.pythonhosted.org/packages/fb/d2/8920e102050a0de7bfabeb4c4614a49248cf8d5d7a8d01885fbb24dc767a/rich-14.2.0.tar.gz"
+    sha256 "73ff50c7c0c1c77c8243079283f4edb376f0f6442433aecb8ce7e6d0b92d1fe4"
   end
 
   def install
@@ -39,15 +39,18 @@ class Richless < Formula
 
   def caveats
     <<~EOS
-      To enable the shell integration (recommended), add this to your
-      ~/.bashrc or ~/.zshrc:
+      richless 0.4 renders progressively and changes shell integration. Existing shells must reload it:
+        . "#{HOMEBREW_PREFIX}/share/richless/richless-init.sh"
+      New shells using that stable path pick up the update automatically.
+      If your startup file names a version-specific Cellar path, replace that line
+      with the stable source command above.
+      If you copied richless-init.sh elsewhere, replace that copy and re-source it.
+      Use `richless --init-path` to locate the packaged integration script.
 
-        source #{share}/richless/richless-init.sh
-
-      Or for basic LESSOPEN integration only:
-
-        export LESSOPEN="|#{bin}/richless %s"
-        export LESS="-R"
+      Use --md to force Markdown; -m now retains less's native prompt behavior.
+      Start with `less +F FILE` for formatted file following. Pressing F after an
+      ordinary rendered-file open does not follow subsequent source changes.
+      Unresolved live Markdown switches to raw source after five seconds or 1 MiB.
     EOS
   end
 
@@ -55,9 +58,11 @@ class Richless < Formula
     (testpath/"test.md").write("# Hello\n\nThis is **bold** text.\n")
     output = shell_output("#{bin}/richless #{testpath}/test.md")
     assert_match "Hello", output
+    assert_path_exists shell_output("#{bin}/richless --init-path").strip
 
     (testpath/"test.py").write("print('hello')\n")
     output = shell_output("#{bin}/richless #{testpath}/test.py")
     assert_match "hello", output
   end
+
 end

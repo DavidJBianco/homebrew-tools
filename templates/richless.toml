@@ -9,23 +9,35 @@ install_extra = '''
 '''
 
 caveats = '''
-      To enable the shell integration (recommended), add this to your
-      ~/.bashrc or ~/.zshrc:
+      richless 0.4 renders progressively and changes shell integration. Existing shells must reload it:
+        . "#{HOMEBREW_PREFIX}/share/richless/richless-init.sh"
+      New shells using that stable path pick up the update automatically.
+      If your startup file names a version-specific Cellar path, replace that line
+      with the stable source command above.
+      If you copied richless-init.sh elsewhere, replace that copy and re-source it.
+      Use `richless --init-path` to locate the packaged integration script.
 
-        source #{share}/richless/richless-init.sh
-
-      Or for basic LESSOPEN integration only:
-
-        export LESSOPEN="|#{bin}/richless %s"
-        export LESS="-R"
+      Use --md to force Markdown; -m now retains less's native prompt behavior.
+      Start with `less +F FILE` for formatted file following. Pressing F after an
+      ordinary rendered-file open does not follow subsequent source changes.
+      Unresolved live Markdown switches to raw source after five seconds or 1 MiB.
 '''
 
 test = '''
     (testpath/"test.md").write("# Hello\n\nThis is **bold** text.\n")
     output = shell_output("#{bin}/richless #{testpath}/test.md")
     assert_match "Hello", output
+    assert_path_exists shell_output("#{bin}/richless --init-path").strip
 
     (testpath/"test.py").write("print('hello')\n")
     output = shell_output("#{bin}/richless #{testpath}/test.py")
     assert_match "hello", output
 '''
+
+# Tested release dependencies. The generator must not replace these with latest versions.
+[versions]
+richless = "0.4.0"
+rich = "14.2.0"
+pygments = "2.19.2"
+markdown-it-py = "4.0.0"
+mdurl = "0.1.2"
